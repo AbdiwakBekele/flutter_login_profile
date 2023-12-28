@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_login/products.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
@@ -21,41 +22,26 @@ class _DashboardState extends State<Dashboard> {
   ImagePicker picker = new ImagePicker();
   XFile? image;
 
-  Future<void> uploadImage(File selectedImage) async {
+  Future<void> createProduct() async {
     final url = Uri.parse(
-        'http://192.168.1.25/projects/flutter_api_updated/upload_photo.php');
+        'http://192.168.1.28/projects/flutter_api_updated/create.php');
 
     final request = http.MultipartRequest('POST', url);
 
     request.files.add(
-      await http.MultipartFile.fromPath('image', selectedImage.path),
+      await http.MultipartFile.fromPath('image', image!.path),
     );
 
-    try {
-      final response = await request.send();
-      if (response.statusCode == 200) {
-        print("Image uploaded successfully");
-      } else {
-        print("Error uploading image");
-      }
-    } catch (error) {
-      print("Error uploading image: $error");
-    }
-  }
+    request.fields['product_name'] = product_name.text;
+    request.fields['product_description'] = product_description.text;
+    request.fields['product_price'] = product_price.text;
 
-  Future<void> createProduct() async {
-    final response = await http.post(
-      Uri.parse('http://192.168.1.25/projects/flutter_api_updated/create.php'),
-      body: {
-        'product_name': product_name.text,
-        'product_description': product_description.text,
-        'product_price': product_price.text,
-      },
-    );
+    final response = await request.send();
 
-    if (response.body.isNotEmpty) {
+    if (response.statusCode == 200) {
+      final responseBody = await response.stream.bytesToString();
       try {
-        final Map<String, dynamic> data = json.decode(response.body);
+        final Map<String, dynamic> data = json.decode(responseBody);
 
         if (data['success'] != null && data['success']) {
           print('Product Registered successful');
@@ -139,6 +125,10 @@ class _DashboardState extends State<Dashboard> {
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
+            Image.network(
+              'http://192.168.1.28/projects/flutter_api_updated/images/1703767434Screenshot_20231227_094924_CBE Mobile Banking.jpg',
+              width: 50,
+            ),
             Center(
               child: Stack(
                 children: [
@@ -197,14 +187,12 @@ class _DashboardState extends State<Dashboard> {
             ),
             Center(
                 child: ElevatedButton(
-              onPressed: () async {
-                final ImagePicker imagePicker = ImagePicker();
-                final XFile? image =
-                    await imagePicker.pickImage(source: ImageSource.gallery);
-
-                if (image != null) {
-                  uploadImage(File(image.path));
-                }
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return ProductList();
+                  },
+                ));
               },
               child: Text("upload"),
             )),
