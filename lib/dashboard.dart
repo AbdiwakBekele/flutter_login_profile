@@ -19,7 +19,7 @@ class _DashboardState extends State<Dashboard> {
   TextEditingController product_price = TextEditingController();
 
   ImagePicker picker = new ImagePicker();
-  // XFile? image;
+  XFile? image;
 
   Future<void> uploadImage(File selectedImage) async {
     final url = Uri.parse(
@@ -71,63 +71,63 @@ class _DashboardState extends State<Dashboard> {
   }
 
   // From Gallery
-  // Future<void> pickImageGallery() async {
-  //   final pickedImage = await picker.pickImage(source: ImageSource.gallery);
-  //   setState(() {
-  //     image = pickedImage;
-  //   });
-  // }
+  Future<void> pickImageGallery() async {
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      image = pickedImage;
+    });
+  }
 
   // // From Camera
-  // Future<void> pickImageCamera() async {
-  //   final pickedImageCamera =
-  //       await picker.pickImage(source: ImageSource.camera);
-  //   setState(() {
-  //     image = pickedImageCamera;
-  //   });
-  // }
+  Future<void> pickImageCamera() async {
+    final pickedImageCamera =
+        await picker.pickImage(source: ImageSource.camera);
+    setState(() {
+      image = pickedImageCamera;
+    });
+  }
 
-  // void showImageOption(BuildContext context) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       return AlertDialog(
-  //         title: const Text("Select Image Source"),
-  //         content: Container(
-  //           height: 200,
-  //           child: Column(
-  //             children: [
-  //               ListTile(
-  //                 leading: Icon(Icons.image),
-  //                 title: Text("Gallary"),
-  //                 onTap: () {
-  //                   pickImageGallery();
-  //                   Navigator.pop(context);
-  //                 },
-  //               ),
-  //               ListTile(
-  //                 leading: Icon(Icons.camera),
-  //                 title: Text("Camera"),
-  //                 onTap: () {
-  //                   pickImageCamera();
-  //                   Navigator.pop(context);
-  //                 },
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //         actions: [
-  //           TextButton(
-  //             onPressed: () {
-  //               Navigator.pop(context);
-  //             },
-  //             child: Text("Close"),
-  //           )
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
+  void showImageOption(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Select Image Source"),
+          content: Container(
+            height: 200,
+            child: Column(
+              children: [
+                ListTile(
+                  leading: Icon(Icons.image),
+                  title: Text("Gallary"),
+                  onTap: () {
+                    pickImageGallery();
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.camera),
+                  title: Text("Camera"),
+                  onTap: () {
+                    pickImageCamera();
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("Close"),
+            )
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -139,43 +139,43 @@ class _DashboardState extends State<Dashboard> {
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            // Center(
-            //   child: Stack(
-            //     children: [
-            //       Container(
-            //         padding: EdgeInsets.all(5),
-            //         decoration: BoxDecoration(
-            //             shape: BoxShape.circle,
-            //             border: Border.all(color: Colors.black, width: 2)),
-            //         child: CircleAvatar(
-            //           radius: 80,
-            //           backgroundImage:
-            //               (image != null) ? FileImage(File(image!.path)) : null,
-            //         ),
-            //       ),
-            //       Positioned(
-            //         bottom: 0,
-            //         right: 5,
-            //         child: Container(
-            //           decoration: BoxDecoration(
-            //             color: Colors.green[700],
-            //             shape: BoxShape.circle,
-            //           ),
-            //           child: IconButton(
-            //             icon: Icon(
-            //               Icons.camera_alt,
-            //               size: 25,
-            //               color: Colors.white,
-            //             ),
-            //             onPressed: () {
-            //               showImageOption(context);
-            //             },
-            //           ),
-            //         ),
-            //       )
-            //     ],
-            //   ),
-            // ),
+            Center(
+              child: Stack(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.black, width: 2)),
+                    child: CircleAvatar(
+                      radius: 80,
+                      backgroundImage:
+                          (image != null) ? FileImage(File(image!.path)) : null,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    right: 5,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.green[700],
+                        shape: BoxShape.circle,
+                      ),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.camera_alt,
+                          size: 25,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          showImageOption(context);
+                        },
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
             TextField(
               controller: product_name,
               decoration: InputDecoration(labelText: 'Product Name'),
