@@ -23,8 +23,7 @@ class _DashboardState extends State<Dashboard> {
   XFile? image;
 
   Future<void> createProduct() async {
-    final url = Uri.parse(
-        'http://192.168.1.28/projects/flutter_api_updated/create.php');
+    final url = Uri.parse('http://flutter.omishtujoy.com/create.php');
 
     final request = http.MultipartRequest('POST', url);
 
@@ -126,7 +125,7 @@ class _DashboardState extends State<Dashboard> {
         child: Column(
           children: [
             Image.network(
-              'http://192.168.1.28/projects/flutter_api_updated/images/1703767434Screenshot_20231227_094924_CBE Mobile Banking.jpg',
+              'http://flutter.omishtujoy.com/images/1703767434Screenshot_20231227_094924_CBE Mobile Banking.jpg',
               width: 50,
             ),
             Center(

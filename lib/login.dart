@@ -21,7 +21,7 @@ class _LoginState extends State<Login> {
 
   Future<void> login() async {
     final response = await http.post(
-      Uri.parse('http://192.168.1.28/projects/flutter_api_updated/login.php'),
+      Uri.parse('http://flutter.omishtujoy.com/login.php'),
       body: {
         'email': usernameController.text,
         'password': passwordController.text,
@@ -32,8 +32,10 @@ class _LoginState extends State<Login> {
 
     if (data['success']) {
       // Navigate to the next screen or perform desired action
-      print(data['token']);
+      print('Token: ${data["token"]}');
       print('Login successful');
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('auth_token', data["token"]);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) {
@@ -56,8 +58,8 @@ class _LoginState extends State<Login> {
         'Authorization': 'Bearer $token',
       };
 
-      final response = await http.get(
-        Uri.parse('http://your_php_server/fetch_data.php'),
+      final response = await http.post(
+        Uri.parse('http://127.0.0.1/updated_data.php/2'),
         headers: headers,
       );
 

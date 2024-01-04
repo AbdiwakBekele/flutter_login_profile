@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_login/single_product.dart';
 import 'package:http/http.dart' as http;
 
 class Product {
@@ -10,7 +11,7 @@ class Product {
   final String productName;
   final String productDescription;
   final String productPrice;
-  final String productImage; // Added field for product image
+  final String productImage;
 
   Product({
     required this.id,
@@ -49,8 +50,7 @@ class _ProductListState extends State<ProductList> {
 
   Future<void> fetchDataFromApi() async {
     final response = await http.get(
-      Uri.parse(
-          'http://192.168.1.28/projects/flutter_api_updated/read_products.php'),
+      Uri.parse('http://flutter.omishtujoy.com/read_products.php'),
     );
 
     if (response.statusCode == 200) {
@@ -81,9 +81,22 @@ class _ProductListState extends State<ProductList> {
             trailing: Text(product.productPrice),
             leading: CircleAvatar(
               backgroundImage: NetworkImage(
-                  'http://192.168.1.28/projects/flutter_api_updated/' +
-                      product.productImage),
+                  'http://flutter.omishtujoy.com/' + product.productImage),
             ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return SingleProduct(
+                        productName: product.productName,
+                        productDescription: product.productDescription,
+                        productPrice: product.productPrice,
+                        productImage: product.productImage);
+                  },
+                ),
+              );
+            },
           );
         },
       ),
